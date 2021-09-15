@@ -5,11 +5,17 @@ import java.awt.Toolkit;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 
 public class GameApp extends GameApplication {
 
+	private static final GameFactory FACTORY = new GameFactory();
+	
 	private static int screenWidth;
 	private static int screenHeight;
+	
+	private Entity player;
 	
     @Override
     protected void initSettings(GameSettings settings) {
@@ -26,5 +32,11 @@ public class GameApp extends GameApplication {
     	screenHeight = (int) screenSize.getHeight();
 
     	launch(args);
+    }
+    
+    @Override
+    protected void initGame() {
+    	FXGL.getGameWorld().addEntityFactory(FACTORY);
+    	this.player = FXGL.spawn("snoopy", 0, 0);
     }
 }
