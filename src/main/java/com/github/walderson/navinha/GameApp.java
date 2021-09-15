@@ -1,5 +1,6 @@
 package com.github.walderson.navinha;
 
+import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
 import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
 import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
@@ -69,9 +70,9 @@ public class GameApp extends GameApplication {
     	scoreValue.setTranslateY(40);
     	
     	livesLabel.setTranslateX(getAppWidth() - 160);
-    	livesLabel.setTranslateY(40);
+    	livesLabel.setTranslateY(getAppHeight() - 40);
     	livesValue.setTranslateX(getAppWidth() - 80);
-    	livesValue.setTranslateY(40);
+    	livesValue.setTranslateY(getAppHeight() - 40);
     	
     	scoreValue.textProperty().bind(getWorldProperties().intProperty("score").asString());
     	livesValue.textProperty().bind(getWorldProperties().intProperty("lives").asString());
