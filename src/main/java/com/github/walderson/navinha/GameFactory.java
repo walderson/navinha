@@ -10,6 +10,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.github.walderson.navinha.component.EnemyComponent;
 import com.github.walderson.navinha.component.PlayerComponent;
 
 public class GameFactory implements EntityFactory {
@@ -25,6 +26,17 @@ public class GameFactory implements EntityFactory {
 				.collidable()
 				.with(new AutoRotationComponent().withSmoothing())
 				.with(new PlayerComponent())
+				.build();
+	}
+
+	@Spawns("redbaron")
+	public Entity newEnemy(SpawnData data) {
+		return entityBuilder(data)
+				.type(EntityType.ENEMY)
+				.viewWithBBox(texture("redbaron.png", 100, 60))
+				.collidable()
+				.with(new AutoRotationComponent().withSmoothing())
+				.with(new EnemyComponent())
 				.build();
 	}
 

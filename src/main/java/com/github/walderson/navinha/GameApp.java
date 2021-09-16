@@ -17,6 +17,7 @@ import java.util.Map;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
+import com.github.walderson.navinha.GameFactory.EntityType;
 import com.github.walderson.navinha.component.PlayerComponent;
 
 import javafx.scene.input.KeyCode;
@@ -91,5 +92,12 @@ public class GameApp extends GameApplication {
     	onKey(KeyCode.UP, "up", ()->this.player.getComponent(PlayerComponent.class).up());
     	onKey(KeyCode.DOWN, "down", ()->this.player.getComponent(PlayerComponent.class).down());
     	onKeyDown(KeyCode.SPACE, "bullet", ()->this.player.getComponent(PlayerComponent.class).shoot());
+    }
+    
+    @Override
+    protected void onUpdate(double tpf) {
+    	if (getGameWorld().getEntitiesByType(EntityType.ENEMY).size() < 10) {
+    		spawn("redbaron", getAppWidth() / 2, getAppHeight() / 2);
+    	}
     }
 }
