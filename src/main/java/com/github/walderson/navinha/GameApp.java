@@ -6,6 +6,8 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
+import static com.almasb.fxgl.dsl.FXGL.inc;
+import static com.almasb.fxgl.dsl.FXGL.onCollisionBegin;
 import static com.almasb.fxgl.dsl.FXGL.onKey;
 import static com.almasb.fxgl.dsl.FXGL.onKeyDown;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
@@ -64,7 +66,7 @@ public class GameApp extends GameApplication {
     			.put("width", getAppWidth())
     			.put("height", getAppHeight()));
     	int radius = 80;
-    	spawn("portal", new SpawnData(getAppWidth() / 2, getAppHeight() / 2)
+    	spawn("portal", new SpawnData((getAppWidth() - radius) / 2, (getAppHeight() - radius) / 2)
     			.put("x", radius / 2)
     			.put("y", radius / 2)
     			.put("radius", radius));
@@ -101,6 +103,21 @@ public class GameApp extends GameApplication {
     	onKey(KeyCode.UP, "up", ()->this.player.getComponent(PlayerComponent.class).up());
     	onKey(KeyCode.DOWN, "down", ()->this.player.getComponent(PlayerComponent.class).down());
     	onKeyDown(KeyCode.SPACE, "bullet", ()->this.player.getComponent(PlayerComponent.class).shoot());
+    }
+    
+    @Override
+    protected void initPhysics() {
+    	onCollisionBegin(EntityType.PLAYER, EntityType.PORTAL, (player, portal)->this.player.getComponent(PlayerComponent.class).die());
+    	onCollisionBegin(EntityType.PLAYER, EntityType.ENEMY, (player, enemy)->{
+    		this.player.getComponent(PlayerComponent.class).die();
+    		inc("score", 1);
+    		enemy.removeFromWorld();
+    	});
+    	onCollisionBegin(EntityType.BULLET, EntityType.ENEMY, (bullet, enemy)->{
+    		inc("score", 1);
+    		bullet.removeFromWorld();
+    		enemy.removeFromWorld();
+    	});
     }
     
     @Override

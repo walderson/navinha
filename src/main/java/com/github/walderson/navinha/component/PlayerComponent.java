@@ -39,7 +39,7 @@ public class PlayerComponent extends Component {
 		}
 	}
 
-	private void die() {
+	public void die() {
 		inc("lives", -1);
 		if (geti("lives") <= 0) {
 			getDialogService().showMessageBox("Game Over",

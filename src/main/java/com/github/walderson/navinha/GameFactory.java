@@ -40,7 +40,7 @@ public class GameFactory implements EntityFactory {
 		return entityBuilder(data)
 				.type(EntityType.PORTAL)
 				.collidable()
-				.view(new Circle(data.<Integer>get("x"),
+				.viewWithBBox(new Circle(data.<Integer>get("x"),
 						data.<Integer>get("y"),
 						data.<Integer>get("radius"),
 						Color.DIMGREY))
