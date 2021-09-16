@@ -6,9 +6,10 @@ import static com.almasb.fxgl.dsl.FXGL.getDialogService;
 import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGL.geti;
 import static com.almasb.fxgl.dsl.FXGL.inc;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
 
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
-import com.sun.javafx.iio.ImageStorage.ImageType;
 
 import javafx.geometry.Point2D;
 
@@ -90,5 +91,12 @@ public class PlayerComponent extends Component {
 			double newY = decXY(direction.getY());
 			direction = new Point2D(newX, newY);
 		}
+	}
+	
+	public void shoot() {
+		spawn("missile", new SpawnData(
+					getEntity().getPosition().getX() + 25,
+					getEntity().getPosition().getY() + 25)
+				.put("direction", direction));
 	}
 }

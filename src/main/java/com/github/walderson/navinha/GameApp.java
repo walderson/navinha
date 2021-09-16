@@ -7,6 +7,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 import static com.almasb.fxgl.dsl.FXGL.onKey;
+import static com.almasb.fxgl.dsl.FXGL.onKeyDown;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 import java.awt.Dimension;
@@ -89,5 +90,6 @@ public class GameApp extends GameApplication {
     	onKey(KeyCode.RIGHT, "right", ()->this.player.getComponent(PlayerComponent.class).right());
     	onKey(KeyCode.UP, "up", ()->this.player.getComponent(PlayerComponent.class).up());
     	onKey(KeyCode.DOWN, "down", ()->this.player.getComponent(PlayerComponent.class).down());
+    	onKeyDown(KeyCode.SPACE, "bullet", ()->this.player.getComponent(PlayerComponent.class).shoot());
     }
 }

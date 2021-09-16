@@ -4,6 +4,8 @@ import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGL.texture;
 
 import com.almasb.fxgl.dsl.components.AutoRotationComponent;
+import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
@@ -23,6 +25,17 @@ public class GameFactory implements EntityFactory {
 				.collidable()
 				.with(new AutoRotationComponent().withSmoothing())
 				.with(new PlayerComponent())
+				.build();
+	}
+
+	@Spawns("missile")
+	public Entity newBullet(SpawnData data) {
+		return entityBuilder(data)
+				.type(EntityType.BULLET)
+				.viewWithBBox(texture("missile.png", 100, 50))
+				.collidable()
+				.with(new ProjectileComponent(data.get("direction"), 350),
+						new OffscreenCleanComponent())
 				.build();
 	}
 }
