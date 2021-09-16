@@ -7,12 +7,14 @@ import static com.almasb.fxgl.dsl.FXGL.getGameController;
 import static com.almasb.fxgl.dsl.FXGL.geti;
 import static com.almasb.fxgl.dsl.FXGL.inc;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.sun.javafx.iio.ImageStorage.ImageType;
 
 import javafx.geometry.Point2D;
 
 public class PlayerComponent extends Component {
+	private static final double ROTATION_CHANGE = 0.01;
+	
 	private Point2D direction = new Point2D(1, 1);
 	
 	@Override
@@ -25,13 +27,13 @@ public class PlayerComponent extends Component {
 		if (entity.getX() < 0) {
 			die();
 		}
-		if (entity.getX() >= getAppWidth()) {
+		if (entity.getX() + entity.getWidth() >= getAppWidth()) {
 			die();
 		}
 		if (entity.getY() < 0) {
 			die();
 		}
-		if (entity.getY() >= getAppHeight()) {
+		if (entity.getY() + entity.getHeight() >= getAppHeight()) {
 			die();
 		}
 	}
@@ -46,5 +48,47 @@ public class PlayerComponent extends Component {
 		
 		entity.setPosition(0, 0);
 		direction = new Point2D(1, 1);
+	}
+	
+	private double decXY(double d) {
+		double res = d;
+		if (res > 0) {
+			res -= ROTATION_CHANGE;
+		} else if (res < 0) {
+			res += ROTATION_CHANGE;
+		}
+		return res;
+	}
+	
+	public void up() {
+		if (direction.getY() > -1) {
+			double newX = decXY(direction.getX());
+			double newY = direction.getY() - ROTATION_CHANGE;
+			direction = new Point2D(newX, newY);
+		}
+	}
+	
+	public void down() {
+		if (direction.getY() < 1) {
+			double newX = decXY(direction.getX());
+			double newY = direction.getY() + ROTATION_CHANGE;
+			direction = new Point2D(newX, newY);
+		}
+	}
+	
+	public void left() {
+		if (direction.getX() > -1) {
+			double newX = direction.getX() - ROTATION_CHANGE;
+			double newY = decXY(direction.getY());
+			direction = new Point2D(newX, newY);
+		}
+	}
+	
+	public void right() {
+		if (direction.getX() < 1) {
+			double newX = direction.getX() + ROTATION_CHANGE;
+			double newY = decXY(direction.getY());
+			direction = new Point2D(newX, newY);
+		}
 	}
 }

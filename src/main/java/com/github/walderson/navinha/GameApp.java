@@ -6,6 +6,7 @@ import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getUIFactoryService;
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
+import static com.almasb.fxgl.dsl.FXGL.onKey;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 import java.awt.Dimension;
@@ -15,7 +16,9 @@ import java.util.Map;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
+import com.github.walderson.navinha.component.PlayerComponent;
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -78,5 +81,13 @@ public class GameApp extends GameApplication {
     	livesValue.textProperty().bind(getWorldProperties().intProperty("lives").asString());
     	
     	getGameScene().addUINodes(scoreLabel, scoreValue, livesLabel, livesValue);
+    }
+    
+    @Override
+    protected void initInput() {
+    	onKey(KeyCode.LEFT, "left", ()->this.player.getComponent(PlayerComponent.class).left());
+    	onKey(KeyCode.RIGHT, "right", ()->this.player.getComponent(PlayerComponent.class).right());
+    	onKey(KeyCode.UP, "up", ()->this.player.getComponent(PlayerComponent.class).up());
+    	onKey(KeyCode.DOWN, "down", ()->this.player.getComponent(PlayerComponent.class).down());
     }
 }
