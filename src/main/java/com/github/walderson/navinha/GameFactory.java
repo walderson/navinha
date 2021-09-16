@@ -10,14 +10,45 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.github.walderson.navinha.component.EnemyComponent;
 import com.github.walderson.navinha.component.PlayerComponent;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+
 public class GameFactory implements EntityFactory {
 	public enum EntityType {
-		BACKGROUND, CENTER, PLAYER, ENEMY, BULLET
+		BACKGROUND, PORTAL, PLAYER, ENEMY, BULLET
 	}
 	
+	@Spawns("background")
+	public Entity newBackground(SpawnData data) {
+		return entityBuilder(data)
+				.type(EntityType.BACKGROUND)
+				.view(new Rectangle(data.<Integer>get("width"),
+						data.<Integer>get("height"),
+						Color.LIGHTBLUE))
+				.with(new IrremovableComponent())
+				.zIndex(-100)
+				.build();
+	}
+
+	@Spawns("portal")
+	public Entity newPortal(SpawnData data) {
+		return entityBuilder(data)
+				.type(EntityType.PORTAL)
+				.collidable()
+				.view(new Circle(data.<Integer>get("x"),
+						data.<Integer>get("y"),
+						data.<Integer>get("radius"),
+						Color.DIMGREY))
+				.with(new IrremovableComponent())
+				.zIndex(-99)
+				.build();
+	}
+
 	@Spawns("snoopy")
 	public Entity newPlayer(SpawnData data) {
 		return entityBuilder(data)

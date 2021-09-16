@@ -17,6 +17,7 @@ import java.util.Map;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.github.walderson.navinha.GameFactory.EntityType;
 import com.github.walderson.navinha.component.PlayerComponent;
 
@@ -59,6 +60,14 @@ public class GameApp extends GameApplication {
     @Override
     protected void initGame() {
     	getGameWorld().addEntityFactory(FACTORY);
+    	spawn("background", new SpawnData(0, 0)
+    			.put("width", getAppWidth())
+    			.put("height", getAppHeight()));
+    	int radius = 80;
+    	spawn("portal", new SpawnData(getAppWidth() / 2, getAppHeight() / 2)
+    			.put("x", radius / 2)
+    			.put("y", radius / 2)
+    			.put("radius", radius));
     	this.player = spawn("snoopy", 0, 0);
     }
     
